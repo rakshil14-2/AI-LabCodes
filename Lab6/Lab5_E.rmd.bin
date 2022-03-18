@@ -1,0 +1,56 @@
+```{r}
+library(e1071) 
+library(caTools) 
+library(caret) 
+library(bnclassify)
+library(ggplot2)
+library(lattice)
+```
+
+```{r}
+course.grades<-read.table("\\Downloads\\2020_bn_nb_data.txt",head=TRUE)
+fac_cols<-c("EC100","EC160","IT101","IT161","MA101","PH100","PH160","HS101","QP")
+int_cols<-c("EC100","EC160","IT101","IT161","MA101","PH100","PH160","HS101")
+course.grades[,fac_cols] <- lapply(course.grades[,fac_cols], as.factor)
+df.grades <- data.frame(course.grades)
+nb.grades <- nb(class="QP", dataset = df.grades)
+plot(nb.grades)
+```
+since we are considering that subjects do not contain dependency among themselves, 
+
+
+```{r}
+df.grades[,int_cols] <- lapply(course.grades[,int_cols], as.integer)
+for(i in (1:20)){
+  split <- sample.split(df.grades, SplitRatio = 0.7) 
+  train_cl <- subset(df.grades, split == "TRUE") 
+  test_cl <- subset(df.grades, split == "FALSE") 
+  naive_cl <- naiveBayes(as.factor(train_cl$QP) ~.,data=train_cl,smooth=0)
+  y_pred <- predict(naive_cl, newdata = test_cl)
+  cm <- table(true=test_cl$QP, predicted=y_pred) 
+  print(accuracy(test_cl$QP, y_pred))
+}
+```
+
+
+```{r}
+library("cpt")
+```
+
+
+```{r}
+df.grades <- data.frame(course.grades)
+for(i in (1:20)){
+  split <- sample.split(df.grades, SplitRatio = 0.7) 
+  train_cl <- subset(df.grades, split == "TRUE") 
+  test_cl <- subset(df.grades, split == "FALSE") 
+  tn <- tan_cl("QP", train_cl)
+  tn <- lp(tn, train_cl, smooth = 1)
+  p <- predict(tn,test_cl)
+  cm <- table(predicted=p, true=test_cl$QP)
+  print(accuracy(test_cl$QP, p))  
+}
+```
+
+
+

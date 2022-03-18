@@ -1,0 +1,67 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(e1071) 
+library(caTools) 
+library(caret) 
+library(bnclassify)
+library(ggplot2)
+library(lattice)
+library(bnlearn)
+```
+
+```{r}
+course.grades<-read.table("Downloads\\2020_bn_nb_data.txt",head=TRUE)
+```
+
+```{r}
+fac_cols<-c("EC100","EC160","IT101","IT161","MA101","PH100","PH160","HS101","QP")
+int_cols<-c("EC100","EC160","IT101","IT161","MA101","PH100","PH160","HS101")
+course.grades[,fac_cols] <- lapply(course.grades[,fac_cols], as.factor)
+df.grades <- data.frame(course.grades)
+nb.grades <- nb(class="QP", dataset = df.grades)
+plot(nb.grades)
+```
+```{r}
+bayes_bn31<-hc(df.grades,score=NULL)
+bayes_bn31<-reverse.arc(bayes_bn31,"EC100","QP")
+bayes_bn31.net<-bn.fit(bayes_bn31,df.grades)
+plot(bayes_bn31)
+```
+```{r}
+bayes_bn31.net
+```
+
+
+
+```{r}
+bayes_bn31<-hc(df.grades,score="k2")
+bayes_bn31<-reverse.arc(bayes_bn31,"EC100","QP")
+bayes_bn31.net<-bn.fit(bayes_bn31,df.grades)
+plot(bayes_bn31)
+```
+
+```{r}
+bayes_bn31.net
+```
+
+
+```{r}
+nb.grades
+```
+
+
+
+
+
+
+
+
+
