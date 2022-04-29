@@ -1,0 +1,6 @@
+MENACE(Matchbox Educable Noughts and Crosses Engine) is a simple machine learning system(based on trail and error) designed to learn tic-tac-toe. 
+It was developed by Donald Michie in 1961-62. He used a total 304 matchboxes, on which he drew almost all possible states or position of game.
+Each box contains colored beads, where each blank space is assigned with a different color bead. While playing the game, he decided to have rewards i.e
+if the MENACE wins then three beads of same color corresponding to the moves are being added by backtracking the moves. 
+If the MENACE loses the game, then MENACE is punished by removing beads of same color corresponding to the moves are being removed using same backtracking method. Here there a province for the game having to be drawn, where single bead of same color corresponding to the move is being added. 
+The MENACE move at the starting of the game is chosen randomly, and according to that further game is carried out. After many games the MENACE based upon rewards received will be trained and will be capable to win against a human. Code for the MENACE is present in the GitHub repository.
